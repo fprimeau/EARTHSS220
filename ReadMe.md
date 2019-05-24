@@ -2,9 +2,9 @@
 
 This repository contains jupyter notebook lectures and exercises for students taking EarthSS 220 at UCI.
 
-Just click on the links below to access the lectures:
+Just click on the links/badges below:
 
 - lecture 0
-    - [prerequisites](src/generated/lecture_0/prerequisites.mb)
+    - [prerequisites](src/generated/lecture_0/prerequisites.md)
 - lecture 1
-    - [ideal mean age](src/generated/lecture_1/ideal_mean_age.ipynb)
+    - The ideal mean age [![nbviewer](https://img.shields.io/badge/render-nbviewer-orange.svg)](https://nbviewer.jupyter.org/github/fprimeau/EARTHSS220/blob/master/src/generated/lecture_1/ideal_mean_age.ipynb)
