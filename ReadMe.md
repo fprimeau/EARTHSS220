@@ -2,7 +2,7 @@
 
 This repository contains jupyter notebook lectures and exercises for students taking EarthSS 220 at UCI.
 
-Just click on the links/badges below:
+Just click on the links below:
 
 - lecture 0
     - [prerequisites](src/generated/lecture_0/prerequisites.md)
