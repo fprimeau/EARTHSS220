@@ -25,7 +25,7 @@
 #
 # where $\nabla \cdot \left[ \boldsymbol{u} - \mathbf{K} \cdot \nabla \right]$ is a differential operator that represents the transport by the ocean circulation.
 # ($\boldsymbol{u}$ is the 3D vector field for the advection and $\mathbf{K}$ is the diffusivity matrix.)
-# In the equation above, we also assume that there is the boundary condition that $a=0$ at the surface.
+# We solve the above equation subject to no-flux boundary conditions at the solid boundaries and subject to $a=0$ at the sea surface.
 
 #---------------------------------
 # ### Discretized tracer equation

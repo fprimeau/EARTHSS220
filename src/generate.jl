@@ -18,7 +18,7 @@ for lecture in lectures
     for f in readdir(joinpath(lectures_DIR, lecture))
         input = joinpath(lectures_DIR, lecture, f)
         output_DIR = joinpath(generated_DIR, lecture)
-        mkdir(output_DIR) # create lecture DIR
+        isdir(output_DIR) || mkdir(output_DIR) # create lecture DIR
         if endswith(f, ".jl")
             println("\ncreating $f:")
             # Alternate the commented line to avoid executing the notebook
@@ -28,6 +28,8 @@ for lecture in lectures
         elseif endswith(f, ".md")
             println("\ncopying $f")
             cp(input, joinpath(output_DIR, f))
+        elseif endswith(f, ".png")
+            cp(input, joinpath(output_DIR,f))
         end
     end
 end
