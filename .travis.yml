@@ -1,0 +1,24 @@
+language: julia
+
+os:
+  - osx
+  - linux
+
+julia:
+  - 1.1
+
+notifications:
+  email: false
+
+before_script:
+  - julia -e 'using Pkg; Pkg.instantiate();
+                Pkg.add("Conda"); using Conda;
+                Conda.add("matplotlib"); Conda.add("cartopy")';
+  - julia -e 'using Pkg; Pkg.instantiate();
+                Pkg.add("PyCall"); ENV["PYTHON"]=""; Pkg.build("PyCall")'
+
+script: # the default script is equivalent to the following
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  - julia -e 'using Pkg; Pkg.instantiate(); 
+                include("test/runtests.jl")';
+
