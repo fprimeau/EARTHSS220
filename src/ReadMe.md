@@ -11,12 +11,16 @@ EARTHSS220
     ├── lectures
     │   ├── lecture_0
     │   │   └── prerequisites.md
-    │   └── lecture_1
+    |   └── lecture_1
+    │       └── boxmodel_eg.jl
+    └── lecture_2
     │       └── ideal_mean_age.jl
     └── generated
         ├── lecture_0
         │   └── prerequisites.md
-        └── lecture_1
+        ├── lecture_1
+        |   └── boxmodel_eg.ipynb       
+        └── lecture_2
             └── ideal_mean_age.ipynb
 ```
 
