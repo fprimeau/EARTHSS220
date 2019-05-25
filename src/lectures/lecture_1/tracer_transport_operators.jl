@@ -242,16 +242,16 @@ gcf()
 # ## Solving Directly for the Steady State
 #---------------------------------------------------------
 
-# One thing we notice is that when the model is at equilibrium, the $\partial \boldsymbol{R} / \partial{d} t$ term vanishes and
+# One thing we notice is that when the model is at equilibrium, the $\partial \boldsymbol{R} / \partial t$ term vanishes and
 # the steady state solution is simply given by the solution to the following linear system of equations
 # 
 # $$\mathbf{M} \, \boldsymbol{R} = \boldsymbol{s},$$
 # 
-# which can be solved by directly inverting the $M$ matrix.
+# which can be solved by directly inverting the $\mathbf{M}$ matrix.
 
 R_final = M \ s
 
-#-
+# Converting radiocarbon into years gives the following values
 
 C14age_final = -log.(R_final) * τ / sec_per_year
 println.("box ", iwet, ": ", round.(C14age_final), " years");
