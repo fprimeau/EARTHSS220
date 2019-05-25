@@ -4,7 +4,7 @@
 
 # Here we will redo the radiocarbon age example, but using the OCIM transport operator made available through the AIBECS package
 using AIBECS
-const mask, grd, T_OCIM = OCIM1.load() ;
+mask, grd, T_OCIM = OCIM1.load() ;
 
 # Some useful OCIM stuff
 iwet = findall(x -> x == 1, vec(mask));  # index to wet gridboxes
@@ -20,10 +20,10 @@ depth = vec(grd["zt"]) ;
 t = empty_parameter_table()               # initialize table of parameters
 add_parameter!(t, :λ, 1 / (5730*log(2))u"yr") # add the radioactive decay e-folding timescale
 add_parameter!(t, :κ, 50u"m" / 10u"yr")
-initialize_Parameters_type(t)             # Generate the parameter table
+initialize_Parameters_type(t, "C14_Parameters")             # Generate the parameter table
 
 # The model parameters
-p₀ = Parameters()
+p₀ = C14_Parameters()
 
 # The sources and sinks of $R$
 function sms_14c(R, p) 

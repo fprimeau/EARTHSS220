@@ -1,6 +1,4 @@
 
-
-
 #---------------------------------------------------------
 # # Ideal mean age
 #---------------------------------------------------------
@@ -25,7 +23,7 @@
 #
 # where $\nabla \cdot \left[ \boldsymbol{u} - \mathbf{K} \cdot \nabla \right]$ is a differential operator that represents the transport by the ocean circulation.
 # ($\boldsymbol{u}$ is the 3D vector field for the advection and $\mathbf{K}$ is the diffusivity matrix.)
-# We solve the above equation subject to no-flux boundary conditions at the solid boundaries and subject to $a=0$ at the sea surface.
+# In the equation above, we also assume that there is the boundary condition that $a=0$ at the surface.
 
 #---------------------------------
 # ### Discretized tracer equation
@@ -69,12 +67,10 @@
 # ## Using AIBECS
 #---------------------------------------------------------
 
-#
 #md # !!! note
 #md #     If this is the first time you are trying AIBECS, make sure you go through the prerequisites!
 #nb # > **Note**
 #nb # > If this is the first time you are trying AIBECS, make sure you go through the prerequisites!
-#
 
 # AIBECS can interpret tracer equations as long as you arrange them under the generic form:
 #
@@ -119,10 +115,9 @@ using AIBECS
 # (For more details, see Tim DeVries's [website](https://tdevries.eri.ucsb.edu/models-and-data-products/) and references therein.)
 # With AIBECS, the OCIM circulation can be loaded really easily, by simply typing
 
-const wet3d, grd, T_OCIM = AIBECS.OCIM1.load()
+wet3d, grd, T_OCIM = AIBECS.OCIM1.load()
 typeof(T_OCIM), size(T_OCIM)
 
-# Here, I have used the `const` prefix to tell Julia these are constants (it helps Julia's compiler)
 #
 #md # !!! note
 #md #     Julia may ask you to download the OCIM matrix for you, in which case you should say yes (i.e., type `y`).
@@ -184,7 +179,7 @@ source_age(age, p) = 1
 # (You can see the list of functions by typing `varinfo(AIBECS)` at the REPL.)
 # Here we will use the vector of grid box depths, `z`, which AIBECS can generate for us via
 
-const z = vector_of_depths(wet3d, grd)
+z = vector_of_depths(wet3d, grd)
 
 # So what is the top layer?
 # Let's investigate what's the minimum depth:
@@ -230,16 +225,17 @@ sms_age(age, p) = source_age(age, p) .- sink_age(age, p)
 
 t = empty_parameter_table()    # initialize table of parameters
 add_parameter!(t, :τ, 1u"s")   # add the parameter we want (τ = 1s)
-initialize_Parameters_type(t)  # Generate the parameter type
+initialize_Parameters_type(t, "IdealAgeParameters")  # Generate the parameter type
 t
 
 # Note, in particular, that we gave our parameter `τ` a unit.
 # Yes, Julia comes with some nice functionality to deal with units directly!
 # The lines above created a table that contains all the info for generating the parameters vector, $\boldsymbol{p}$.
-# For AIBECS, we will denote it by `p₀`:
+# To generate the parameters in AIBECS we do:
 
-p₀ = Parameters()
+p₀ = IdealAgeParameters()
 
+# where we have used the constructor `IdealAgeParameters`, whose name we defined in the previous cell.
 # Here we did not really need to create `p₀` as a parameters vector, since it has only one element, `τ`, in it.
 # However, we are here to learn, and this structure and functionality comes in very handy when one deals with many parameters.
 # (And as you can imagine, having all the parameters in a nice table ready for being used in a publication comes quite handy!)
@@ -253,12 +249,12 @@ p₀ = Parameters()
 # The vector `x₀` will be our initial guess for the state.
 # Let's assume that the age is `1` (seconds) everywhere (as an initial guess):
 
-const nb = number_of_wet_boxes(wet3d)  # number of wet boxes
+nb = number_of_wet_boxes(wet3d)  # number of wet boxes
 x₀ = ones(nb)
 
 # The first line above defines the number of wet grid boxes, `nb`.
 # Here, this is also the length of the state vector `x`, because there is only one tracer, `age`.
-# In the second line, the `ones` function creates a vector of `1`s of the size you give it (the number of wet grid boxes, `nb`, here, which we defined as a constant earlier).
+# In the second line, the `ones` function creates a vector of `1`s of the size you give it (the number of wet grid boxes, `nb`, here, which we defined earlier).
 
 # Finally, the last step for the set up is to define $\boldsymbol{F}$.
 # Using AIBECS, this is done via
@@ -351,7 +347,7 @@ age = solve(prob, CTKAlg())
 # First, we must rearrange `age` into the 3D model grid.
 # For that we will need the vector of the indices of wet points in the 3D grid, which we will denote by `iwet`, and which AIBECS generates via
 
-const iwet = indices_of_wet_boxes(wet3d)
+iwet = indices_of_wet_boxes(wet3d)
 
 # We then rearrange the column vector `age` into a 3D array via
 
