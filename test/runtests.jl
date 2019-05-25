@@ -1,4 +1,5 @@
 using Test
+ENV["DATADEPS_ALWAYS_ACCEPT"] = true # For accepting downloads (e.g., OCIM)
 
 # Directory where the examples in Literate.jl format are
 lectures_DIR = joinpath(splitpath(abspath(@__DIR__))[1:end-1]..., "src", "lectures")
