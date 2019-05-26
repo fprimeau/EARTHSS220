@@ -227,7 +227,7 @@ ENV["MPLBACKEND"]="qt5agg"
 using PyPlot
 clf()
 C14age_hist = -log.(R_hist) * τ / sec_per_year
-plot(t_hist, C14age_hist')
+plot(t_hist / sec_per_year, C14age_hist')
 xlabel("simulation time (years)")
 ylabel("¹⁴C age (years)")
 legend("box " .* string.(iwet))
