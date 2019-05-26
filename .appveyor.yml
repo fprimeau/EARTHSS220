@@ -29,6 +29,6 @@ build_script:
                            Pkg.add("""PyCall"""); ENV["""PYTHON"""]=""""""; Pkg.build("""PyCall""")"
 
 test_script:
-  - echo "%JL_TEST_SCRIPT%"
-  - C:\julia\bin\julia -e "%JL_TEST_SCRIPT%"
+  - C:\julia\bin\julia -e "using Pkg; Pkg.instantiate(); 
+                           include("""test/runtests.jl""")"
 
