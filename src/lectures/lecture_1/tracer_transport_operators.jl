@@ -223,6 +223,7 @@ R_hist, t_hist = euler_backward(R₀, Δt, 10000, M, s) # runs the simulation
 # This should take a few seconds to run.
 # Once it's done, we can plot the evloution of radiocarbon through time via
 
+ENV["MPLBACKEND"]="qt5agg"
 using PyPlot
 clf()
 C14age_hist = -log.(R_hist) * τ / sec_per_year
