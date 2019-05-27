@@ -48,28 +48,28 @@ using AIBECS
 
 # Load the circulation and grid
 
-const wet3d, grd, T_Circulation = OCIM1.load() ;
+wet3d, grd, T_Circulation = OCIM1.load() ;
 
 # Define useful constants and arrays
 
-const iwet = indices_of_wet_boxes(wet3d)
-const nb = number_of_wet_boxes(wet3d)
-const v = vector_of_volumes(wet3d, grd)
-const z = vector_of_depths(wet3d, grd)
-const ztop = vector_of_top_depths(wet3d, grd) ;
+iwet = indices_of_wet_boxes(wet3d)
+nb = number_of_wet_boxes(wet3d)
+v = vector_of_volumes(wet3d, grd)
+z = vector_of_depths(wet3d, grd)
+ztop = vector_of_top_depths(wet3d, grd) ;
 
 # And matrices
 
-const DIV = buildDIV(wet3d, iwet, grd)
-const Iabove = buildIabove(wet3d, iwet) ;
+DIV = buildDIV(wet3d, iwet, grd)
+Iabove = buildIabove(wet3d, iwet) ;
 
 # ### Transport matrices
 
 T_DIP(p) = T_Circulation
 T_DOP(p) = T_Circulation
 T_DO2(p) = T_Circulation
-const S₀ = buildPFD(ones(nb), DIV, Iabove)
-const S′ = buildPFD(ztop, DIV, Iabove)
+S₀ = buildPFD(ones(nb), DIV, Iabove)
+S′ = buildPFD(ztop, DIV, Iabove)
 function T_POP(p)
     w₀, w′ = p.w₀, p.w′
     return w₀ * S₀ + w′ * S′
