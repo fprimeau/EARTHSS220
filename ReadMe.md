@@ -1,5 +1,7 @@
 # EarthSS 220 Marine Biogeochemistry
 
+[![Build Status](https://travis-ci.com/fprimeau/EARTHSS220.svg?branch=master)](https://travis-ci.com/fprimeau/EARTHSS220)
+
 This repository contains jupyter notebook lectures and exercises for students taking EarthSS 220 at UCI.
 
 You can click on the links below to see the notebooks (and the prerequisites):
