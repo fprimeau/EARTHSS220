@@ -1,0 +1,7 @@
+[deps]
+AIBECS = "ace601d6-714c-11e9-04e5-89b7fad23838"
+Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
+PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+WorldOceanAtlasTools = "04f20302-f1b9-11e8-29d9-7d841cb0a64a"
