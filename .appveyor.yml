@@ -22,13 +22,13 @@ install:
 build_script:
   - echo "%JL_BUILD_SCRIPT%"
   - C:\julia\bin\julia -e "%JL_BUILD_SCRIPT%"
-  - C:\julia\bin\juliajulia -e 'using Pkg; Pkg.instantiate();
-                                Pkg.add("Conda"); using Conda;
-                                Conda.add("matplotlib"); Conda.add("cartopy")'
-  - C:\julia\bin\juliajulia -e 'using Pkg; Pkg.instantiate();
-                                Pkg.add("PyCall"); ENV["PYTHON"]=""; Pkg.build("PyCall")'
+  - C:\julia\bin\julia -e "using Pkg; Pkg.instantiate();
+                           Pkg.add("""Conda"""); using Conda;
+                           Conda.add("""matplotlib"""); Conda.add("""cartopy""")"
+  - C:\julia\bin\julia -e "using Pkg; Pkg.instantiate();
+                           Pkg.add("""PyCall"""); ENV["""PYTHON"""]=""""""; Pkg.build("""PyCall""")"
 
 test_script:
-  - echo "%JL_TEST_SCRIPT%"
-  - C:\julia\bin\julia -e "%JL_TEST_SCRIPT%"
+  - C:\julia\bin\julia -e "using Pkg; Pkg.instantiate(); 
+                           include("""test/runtests.jl""")"
 
