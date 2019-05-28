@@ -30,7 +30,7 @@
 
 # Oxygen participates to this cycle too and satisfies its own tracer equation
 #
-# $$\frac{\partial}{\partial t} DO_2 + \nabla \cdot \left[\boldsymbol{u} + \mathbf{K}\cdot\nabla \right] DO_2 = -r_{\mathsf{O}_2:\mathsf{P}} \, \kappa_\mathsf{D} \, DOP + \boldsymbol{\Lambda}(DO_2 - [O_2]_{\mathsf{sat}})$$
+# $$\frac{\partial}{\partial t} DO_2 + \nabla \cdot \left[\boldsymbol{u} + \mathbf{K}\cdot\nabla \right] DO_2 = -r_{\mathsf{O}_2:\mathsf{P}} \, \kappa_\mathsf{D} \, DOP + \Lambda(DO_2 - [O_2]_{\mathsf{sat}})$$
 #
 # where $\Lambda$ is the air-sea gas exchange operator.
 
@@ -74,8 +74,7 @@ function T_POP(p)
     w₀, w′ = p.w₀, p.w′
     return w₀ * S₀ + w′ * S′
 end
-T_all = (T_DIP, T_DOP, T_POP, T_DO2,) ;
-#T_all = (T_DIP, T_DOP, T_POP, ) ;
+T_all = (T_DIP, T_DOP, T_POP, T_DO2) ;
 
 # Because AIBECS will solve for the steady state solution directly without time-stepping the goverining equations to equilibrium, we don't have any opportunity to specify any intial conditions.
 # Initial conditions are how the total amount of conserved elements get specified in most global biogeochemical modelels.
@@ -86,7 +85,7 @@ T_all = (T_DIP, T_DOP, T_POP, T_DO2,) ;
 # time-stepped the model to steady-state with the total inventory prescribed by the initial condition.
 
 # ### Sources minus sinks
-#
+
 # ##### Geological Restoring
 
 function geores(x, p)
@@ -125,8 +124,6 @@ using WorldOceanAtlasTools
 WOA = WorldOceanAtlasTools
 μDO2sat , σ²DO2sat = WOA.fit_to_grid(grd,2018,"O2sat","annual","1°","an") ;
 DO2sat = vec(μDO2sat)[iwet]
-# This below was commented out?
-
 function airsea(DO2, p)
     κDO2 = p.κDO2
     return κDO2 * (z .< 20) .* (DO2sat .- DO2) / dz1
@@ -135,27 +132,21 @@ end
 # Add them up into sms functions (Sources Minus Sinks)
 
 function sms_DIP(DIP, DOP, POP, DO2, p)
-#function sms_DIP(DIP, DOP, POP, p)
     return -uptake(DIP, p) + respiration(DOP, p) + geores(DIP, p)
 end
 function sms_DOP(DIP, DOP, POP, DO2, p)
-#function sms_DOP(DIP, DOP, POP, p)
     σ = p.σ
     return σ * uptake(DIP, p) - respiration(DOP, p) + dissolution(POP, p)
 end
 function sms_POP(DIP, DOP, POP, DO2, p)
-#function sms_POP(DIP, DOP, POP, p)
     σ = p.σ
     return (1 - σ) * uptake(DIP, p) - dissolution(POP, p)
 end
 function sms_DO2(DIP, DOP, POP, DO2, p)
-    rO2P = p.rO2P 
-#    return airsea(DO2,p)   
-    return airsea(DO2,p)+rO2P*(uptake(DIP,p)-respiration(DOP,p))    
-#    return geores(DO2,p)
+    rO2P = p.rO2P
+    return airsea(DO2,p) + rO2P * (uptake(DIP,p) - respiration(DOP,p))
 end
 sms_all = (sms_DIP, sms_DOP, sms_POP, sms_DO2,) # bundles all the source-sink functions in a tuple
-#sms_all = (sms_DIP, sms_DOP, sms_POP, ) # bundles all the source-sink functions in a tuple
 
 
 # ### Parameters
@@ -213,7 +204,6 @@ initialize_Parameters_type(t, "Pcycle_Parameters")   # Generate the parameter ty
 # ### Generate state function and Jacobian
 
 nt = length(T_all)    # number of tracers
-
 n = nt * nb           # total dimension of the state vector
 p = Pcycle_Parameters() # parameters
 x = p.xgeo * ones(n) # initial iterate
@@ -221,21 +211,13 @@ F, ∇ₓF = state_function_and_Jacobian(T_all, sms_all, nb)
 
 # and solve
 
- prob = SteadyStateProblem(F, ∇ₓF, x, p)
- s = solve(prob, CTKAlg());
-
+prob = SteadyStateProblem(F, ∇ₓF, x, p)
+nothing # s = solve(prob, CTKAlg()) # Not working yet
 
 # unpack state
 
-# function unpack_P_state(s,mask)
-#         DIP = NaN*mask; DOP = NaN*mask; POP = NaN*mask
-#         iwet = findall(x-> x==1, vec(mask))
-#         nwet = length(iwet)
-#         idip = 1:nwet;       idop = idip.+nwet;   ipop = idop.+nwet
-#         DIP[iwet] = s[idip]; DOP[iwet] = s[idop]; POP[iwet] = s[ipop]
-#     return DIP, DOP, POP
-# end
-# DIP, DOP, POP = unpack_P_state(s,wet3d);
+DIP, DOP, POP, DO2 = state_to_tracers(x, nb, nt) # remove when line below works
+nothing # DIP, DOP, POP, DO2 = state_to_tracers(s.u, nb, nt)
 
 # We will plot the concentration of DIP at a given depth horizon
 
@@ -245,22 +227,22 @@ iz, depth[iz]
 
 #-
 
-# dip = DIP[:,:,iz] * ustrip(1.0u"mol/m^3"|>u"mmol/m^3");
-# lat, lon = vec(grd["yt"]), vec(grd["xt"]);
+DIP_3D = rearrange_into_3Darray(DIP, wet3d)
+DIP_2D = DIP_3D[:,:,iz] * ustrip(1.0u"mol/m^3" |> u"mmol/m^3")
+lat, lon = vec(grd["yt"]), vec(grd["xt"])
 
 # and plot
 
-# ENV["MPLBACKEND"]="qt5agg"
-# using PyPlot, PyCall
-# using Conda; Conda.add("Cartopy")
-# clf()
-# ccrs = pyimport("cartopy.crs")
-# ax = subplot(projection=ccrs.Robinson(central_longitude=-155.0))
-# ax.coastlines()
-# # making it cyclic for Cartopy
-# lon_cyc = [lon; 360+lon[1]]
-# dip_cyc = hcat(dip, dip[:,1])
-# # And plot
-# p = contourf(lon_cyc, lat, dip_cyc, levels=0:0.2:3.6, transform=ccrs.PlateCarree(), zorder=-1)
-# colorbar(p, orientation="horizontal");
-# gcf()
+ENV["MPLBACKEND"]="qt5agg"
+using PyPlot, PyCall
+clf()
+ccrs = pyimport("cartopy.crs")
+ax = subplot(projection = ccrs.Robinson(central_longitude=-155.0))
+ax.coastlines()
+# making it cyclic for Cartopy
+lon_cyc = [lon; 360+lon[1]]
+DIP_2D_cyc = hcat(DIP_2D, DIP_2D[:,1])
+# And plot
+p = contourf(lon_cyc, lat, DIP_2D_cyc, levels=0:0.2:3.6, transform=ccrs.PlateCarree(), zorder=-1)
+colorbar(p, orientation="horizontal");
+gcf()
