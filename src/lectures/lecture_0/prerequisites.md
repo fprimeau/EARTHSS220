@@ -190,4 +190,6 @@ julia> jupyterlab()
 
 Just navigate to the notebook of your choice with JupyterLab in your browser and double-click on the notebook!
 
-
+> **Note:**
+> You can run JupyterLab (or any other Jupyter Notebook reader) outside of Julia if you want.
+> For example, you might already have jupyter-notebook installed on your laptop, in which case you can just use that!
