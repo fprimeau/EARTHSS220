@@ -70,6 +70,35 @@ The packages you should install are:
 
     This should only take a few seconds.
 
+- **BSON** to save and load data
+
+    The [BSON](https://github.com/MikeInnes/BSON.jl) package allows you to save and load data easily in Julia.
+    Like the other packages, you install it via `add BSON` in `pkg` mode.
+    It should look like
+
+    ```julia
+    (v1.1) pkg> add BSON
+    ```
+
+    BSON is pretty straightforward to use:
+
+    ```julia
+    julia> using BSON: @save, @load
+
+    julia> a, b = 1, 2
+    (1, 2)
+
+    julia> @save "test.bson" a b # Saves `a` and `b` from the workspace into a `test.bson` file
+
+    julia> @load "test.bson" a b # Loads `a` and `b` into the workspace from the `test.bson` file
+    ```
+
+    (This example was derived from BSON's [ReadMe](https://github.com/MikeInnes/BSON.jl/blob/master/README.md) — have a look there for more details.)
+
+    > **Note:**
+    > There are a couple of other packages to load and save data.
+    > But at the time of writing (June 2019), I would recommend BSON because it looks like the best alternative (easy to use, actively maintained, well documented).
+
 - If you want nice-looking maps, install **Cartopy**
 
     In order to plot things, i.e., to look at the output of the beautiful work you will be doing with AIBECS, you will need a plotting package.
