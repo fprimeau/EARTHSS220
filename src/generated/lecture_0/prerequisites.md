@@ -1,8 +1,8 @@
-## Prerequisites
+# Prerequisites
 
 This section provides a set of instructions and prerequisites to use AIBECS.
 
-### 1. Install Julia
+## 1. Julia
 
 First things first, you must install [Julia](https://julialang.org). Click on the [Julia](https://julialang.org) link, look for the "download" buttons, and install the correct version for your OS.
 Once this is done, you should be able to start Julia by typing
@@ -34,7 +34,7 @@ Great job, Julia is now running on your computer! Congratulations!
 If you want to learn more about Julia, you can read [the documentation](https://docs.julialang.org/en/v1/), there is a [Discourse forum](https://discourse.julialang.org/), and there is a [Slack channel](https://julialang.slack.com/messages) if you need help.
 But for now you should not need any of those: The notebook will just require you to press Shift + Enter a couple of times.
 
-### 2. Julia packages required for the notebooks
+## 2. Julia packages
 
 In Julia, you can access the package manager by simply typing `]` in the REPL.
 Once you type `]`, the REPL changes to
@@ -161,6 +161,9 @@ The packages you should install are:
     > ```
 
 If you followed all these steps you should be able to use the notebooks!
+
+
+## 3. JupyterLab
 
 The final step is to start JupyterLab.
 First, make sure you are in the normal Julia REPL mode (i.e., press `delete` if you are in `pkg` mode.)
