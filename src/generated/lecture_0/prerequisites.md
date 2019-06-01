@@ -132,9 +132,9 @@ The packages you should install are:
 
     This should only take a few seconds as well.
 
-    !!! note
-        You may want to install Cartopy differently, or even use a different plotting package.
-        This is merely a suggestion that has worked well for me.
+    > **Note:**
+    > You may want to install Cartopy differently, or even use a different plotting package.
+    > This is merely a suggestion that has worked well for me.
 
 - If you want to run the notebooks, install **IJulia**
 
@@ -147,18 +147,18 @@ The packages you should install are:
 
     This should only take a few seconds as well.
 
-    !!! note
-        You could install JupyterLab externally to Julia and use that instead.
-        The solution proposed here is to facilitate usage for those who do not already have or know how to install JupyterLab.
+    > **Note:**
+    > You could install JupyterLab externally to Julia and use that instead.
+    > The solution proposed here is to facilitate usage for those who do not already have or know how to install JupyterLab.
 
-    !!! note
-        You may need to build **CodecZlib** to run the notebooks.
-        If you see an error mentioning you should build it, then build it!
-        It's easy, just go in `pkg` mode and type `build CodecZlib`.
-        It should look like this:
-        ```julia
-        (v1.1) pkg> build CodecZlib
-        ```
+    > **Note:**
+    > You may need to build **CodecZlib** to run the notebooks.
+    > If you see an error mentioning you should build it, then build it!
+    > It's easy, just go in `pkg` mode and type `build CodecZlib`.
+    > It should look like this:
+    > ```julia
+    > (v1.1) pkg> build CodecZlib
+    > ```
 
 If you followed all these steps you should be able to use the notebooks!
 
@@ -170,9 +170,9 @@ Then, tell Julia that you want to "use" IJulia:
 julia> using IJulia
 ```
 
-!!! note
-    You can just copy paste the code above (including the `julia>` bits), and the REPL will know to not paste those automatically.
-    Everytime a package is used for the first time, Julia will precompile it (which can take a few seconds to minutes, depending on the package — don't worry, just let it finish).
+> **Note:**
+> You can just copy paste the code above (including the `julia>` bits), and the REPL will know to not paste those automatically.
+> Everytime a package is used for the first time, Julia will precompile it (which can take a few seconds to minutes, depending on the package — don't worry, just let it finish).
 
 Finally, you can start JupyterLab from Julia by simply typing `jupyerlab()` in Julia.
 It should look like:
@@ -181,9 +181,9 @@ It should look like:
 julia> jupyterlab()
 ```
 
-!!! note
-    If Julia asks you if you want Conda to install JupyterLab, just say "yes" (i.e., type `y`).
-    After a couple seconds/minutes of downloads and installations, you should be all set up and a browser window should open with JupyterLab!
+> **Note:**
+> If Julia asks you if you want Conda to install JupyterLab, just say "yes" (i.e., type `y`).
+> After a couple seconds/minutes of downloads and installations, you should be all set up and a browser window should open with JupyterLab!
 
 Just navigate to the notebook of your choice with JupyterLab in your browser and double-click on the notebook!
 
