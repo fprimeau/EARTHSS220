@@ -80,8 +80,20 @@ The packages you should install are:
     (v1.1) pkg> add BSON
     ```
 
-    Have a look at BSON's [ReadMe](https://github.com/MikeInnes/BSON.jl/blob/master/README.md) to learn how to use it.
-    (Relax, it's very straightforward.)
+    BSON is pretty straightforward to use:
+
+    ```julia
+    julia> using BSON: @save, @load
+
+    julia> a, b = 1, 2
+    (1, 2)
+
+    julia> @save "test.bson" a b # Saves `a` and `b` from the workspace into a `test.bson` file
+
+    julia> @load "test.bson" a b # Loads `a` and `b` into the workspace from the `test.bson` file
+    ```
+
+    (This example was derived from BSON's [ReadMe](https://github.com/MikeInnes/BSON.jl/blob/master/README.md) — have a look there for more details.)
 
     > **Note:**
     > There are a couple of other packages to load and save data.
