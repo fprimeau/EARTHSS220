@@ -136,6 +136,18 @@ The packages you should install are:
     > You may want to install Cartopy differently, or even use a different plotting package.
     > This is merely a suggestion that has worked well for me.
 
+- To use data from the World Ocean Atlas, install **[WorldOceanAtlasTools](https://github.com/briochemc/WorldOceanAtlasTools.jl)**
+
+    In `pkg` mode, type `add WorldOceanAtlasTools`, it should look like:
+
+    ```julia
+    (v1.1) pkg> add WorldOceanAtlasTools
+    ```
+
+    > **Note:**
+    > WorldOceanAtlasTools is only needed for notebooks that use World Ocean Data.
+    > (So you do not need it if you only run, e.g., the ideal mean age code.)
+
 - If you want to run the notebooks, install **IJulia**
 
     The [IJulia](https://github.com/JuliaLang/IJulia.jl) package allows you to launch JupyterLab from Julia.
