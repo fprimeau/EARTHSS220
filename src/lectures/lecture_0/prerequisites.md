@@ -1,6 +1,7 @@
 # Prerequisites
 
 This section provides a set of instructions and prerequisites to use AIBECS.
+(Installing everything should take you about 10 minutes.)
 
 ## 1. Julia
 
